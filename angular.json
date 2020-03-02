@@ -1,7 +1,64 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "cah-bot": {
+      "root": "apps/cah-bot",
+      "sourceRoot": "apps/cah-bot/src",
+      "projectType": "application",
+      "prefix": "cah-bot",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/cah-bot",
+            "main": "apps/cah-bot/src/main.ts",
+            "tsConfig": "apps/cah-bot/tsconfig.app.json",
+            "assets": ["apps/cah-bot/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/cah-bot/src/environments/environment.ts",
+                  "with": "apps/cah-bot/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "cah-bot:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/cah-bot/tsconfig.app.json",
+              "apps/cah-bot/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/cah-bot/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/cah-bot/jest.config.js",
+            "tsConfig": "apps/cah-bot/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/express"
+  },
+  "defaultProject": "cah-bot"
 }
