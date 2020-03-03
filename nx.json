@@ -13,6 +13,9 @@
   "projects": {
     "cah-bot": {
       "tags": []
+    },
+    "cah-reborn-client": {
+      "tags": []
     }
   }
 }

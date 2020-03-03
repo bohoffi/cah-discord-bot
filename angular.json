@@ -1,20 +1,20 @@
 {
   "version": 1,
   "projects": {
-    "cah-bot": {
-      "root": "apps/cah-bot",
-      "sourceRoot": "apps/cah-bot/src",
+    "cah-reborn": {
+      "root": "apps/cah-reborn",
+      "sourceRoot": "apps/cah-reborn/src",
       "projectType": "application",
-      "prefix": "cah-bot",
+      "prefix": "cah-reborn",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/cah-bot",
-            "main": "apps/cah-bot/src/main.ts",
-            "tsConfig": "apps/cah-bot/tsconfig.app.json",
-            "assets": ["apps/cah-bot/src/assets"]
+            "outputPath": "dist/apps/cah-reborn",
+            "main": "apps/cah-reborn/src/main.ts",
+            "tsConfig": "apps/cah-reborn/tsconfig.app.json",
+            "assets": ["apps/cah-reborn/src/assets"]
           },
           "configurations": {
             "production": {
@@ -23,8 +23,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/cah-bot/src/environments/environment.ts",
-                  "with": "apps/cah-bot/src/environments/environment.prod.ts"
+                  "replace": "apps/cah-reborn/src/environments/environment.ts",
+                  "with": "apps/cah-reborn/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -33,24 +33,50 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "cah-bot:build"
+            "buildTarget": "cah-reborn:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/cah-bot/tsconfig.app.json",
-              "apps/cah-bot/tsconfig.spec.json"
+              "apps/cah-reborn/tsconfig.app.json",
+              "apps/cah-reborn/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cah-bot/**"]
+            "exclude": ["**/node_modules/**", "!apps/cah-reborn/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/cah-bot/jest.config.js",
-            "tsConfig": "apps/cah-bot/tsconfig.spec.json",
+            "jestConfig": "apps/cah-reborn/jest.config.js",
+            "tsConfig": "apps/cah-reborn/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "cah-reborn-client": {
+      "root": "libs/cah-reborn-client",
+      "sourceRoot": "libs/cah-reborn-client/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/cah-reborn-client/tsconfig.lib.json",
+              "libs/cah-reborn-client/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/cah-reborn-client/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/cah-reborn-client/jest.config.js",
+            "tsConfig": "libs/cah-reborn-client/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -60,5 +86,5 @@
   "cli": {
     "defaultCollection": "@nrwl/express"
   },
-  "defaultProject": "cah-bot"
+  "defaultProject": "cah-reborn"
 }
