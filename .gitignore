@@ -38,3 +38,4 @@ testem.log
 .DS_Store
 Thumbs.db
 apps/cah-bot/src/consts.ts
+apps/cah-reborn/src/consts.ts
