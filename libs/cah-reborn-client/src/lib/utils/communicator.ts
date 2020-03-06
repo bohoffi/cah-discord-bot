@@ -1,4 +1,4 @@
-import { Message, DMChannel, StringResolvable } from "discord.js";
+import { Message, DMChannel, StringResolvable, CollectorFilter, AwaitReactionsOptions, Collection, MessageReaction } from "discord.js";
 
 export class Communicator {
     public async dm(message: Message, dms: StringResolvable[], reply: string = null): Promise<Message | Message[]> {
@@ -22,5 +22,12 @@ export class Communicator {
                     message.channel.send('You did not enter any input!');
                 });
         });
+    }
+
+    public async awaitReaction(
+        message: Message,
+        filter: CollectorFilter,
+        options?: AwaitReactionsOptions): Promise<Collection<string, MessageReaction>> {
+        return message.awaitReactions(filter, options);
     }
 }
