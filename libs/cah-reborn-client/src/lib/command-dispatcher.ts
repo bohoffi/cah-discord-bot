@@ -37,7 +37,9 @@ export class CommandDispatcher {
    * @param message the {@link Message} to check
    */
   private ignoreMessage(message: Message): boolean {
-    return message.author.bot || message.author.id === this.client.user.id || !message.content.startsWith(this.client.opts.prefix);
+    return message.author.bot
+      || message.author.id === this.client.user.id
+      || !message.content.toLowerCase().startsWith(this.client.opts.prefix);
   }
 
   private parseMessage(message: Message): MessageParseResult {
