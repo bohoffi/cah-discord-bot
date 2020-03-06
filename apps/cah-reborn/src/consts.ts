@@ -1,1 +1,1 @@
-export const BOT_TOKEN = 'Njg0MTEzODYzMzM5NDA5NTI4.Xl1aJw.91SPYjk2QWKrJrfK1lriUrqiZRU';
+export const BOT_TOKEN = '';
