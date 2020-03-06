@@ -3,14 +3,18 @@ import { ArgumentDefinition } from '@cah-reborn-client';
 import { Message } from 'discord.js';
 
 export class PlayCommand extends GameCommand<any> {
-    public aliases(): string[] {
+    public get aliases(): string[] {
         return [
             'p'
         ];
     }
     public get signature(): ArgumentDefinition[] {
-        // TODO
-        return [];
+        return [
+            {
+                name: 'card(s)',
+                description: 'Play the selected cards'
+            }
+        ];
     }
     public run(message: Message, args: any): Promise<Message | Message[]> {
 

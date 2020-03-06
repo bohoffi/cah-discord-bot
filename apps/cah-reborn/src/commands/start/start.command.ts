@@ -2,8 +2,8 @@ import { GameCommand } from '../game.command';
 import { ArgumentDefinition, asInlineCode } from '@cah-reborn-client';
 import { Message, Util } from 'discord.js';
 
-export class StartCommand extends GameCommand<any> {
-    public aliases(): string[] {
+export class StartCommand extends GameCommand {
+    public get aliases(): string[] {
         return [
             's'
         ];

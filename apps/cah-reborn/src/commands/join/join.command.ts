@@ -3,7 +3,7 @@ import { ArgumentDefinition } from '@cah-reborn-client';
 import { GameCommand } from '../game.command';
 
 export class JoinCommand extends GameCommand<any> {
-    public aliases(): string[] {
+    public get aliases(): string[] {
         return [
             'j'
         ];

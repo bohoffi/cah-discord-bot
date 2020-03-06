@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { GameCommand } from '../game.command';
 
 export class LeaveCommand extends GameCommand<any> {
-    public aliases(): string[] {
+    public get aliases(): string[] {
         return [
             'l'
         ]
