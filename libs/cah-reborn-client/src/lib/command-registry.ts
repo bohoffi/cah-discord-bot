@@ -8,7 +8,7 @@ import { CommanderClient } from './commander.client';
 
 export class CommandRegistry {
   private commandGroups: Collection<string, CommandGroup> = new Collection();
-  private unknownCommand: Command<any>;
+  private unknownCommand: Command;
 
   private readonly log$: Logger;
 
@@ -16,21 +16,25 @@ export class CommandRegistry {
     this.log$ = log((!!this.client.options && this.client.opts.debug) || false);
   }
 
-  public get unknown(): Command<any> {
+  public get unknown(): Command {
     return this.unknownCommand;
   }
 
-  public set unknown(value: Command<any>) {
+  public set unknown(value: Command) {
     this.unknownCommand = value;
   }
 
-  public get commands(): Command<any>[] {
+  public get groups(): CommandGroup[] {
+    return this.commandGroups.array();
+  }
+
+  public get commands(): Command[] {
     return this.commandGroups.reduce(
-      (acc: Command<any>[], group: CommandGroup) => {
-        return [...acc, ...(group.commands || [])];
+      (acc: Command[], group: CommandGroup) => {
+        return [...acc, ...group.commands];
       },
       []
-    );
+    ).filter((c: Command) => !!c);
   }
 
   public registerGroups(groups: CommandGroup[]): CommandRegistry {
@@ -52,7 +56,7 @@ export class CommandRegistry {
   public getCommands(
     searchFilter: string = null,
     exact: boolean = false
-  ): Command<any>[] {
+  ): Command[] {
     if (!searchFilter) {
       return this.commands;
     }
@@ -61,7 +65,7 @@ export class CommandRegistry {
     const lcSearch = searchFilter.toLowerCase();
 
     const matchedCommands = this.commands.filter(
-      (cmd: Command<any>) =>
+      (cmd: Command) =>
         exact
           ? commandFilterExact(cmd, lcSearch)
           : commandFilterInexact(cmd, lcSearch)
@@ -73,7 +77,7 @@ export class CommandRegistry {
     for (const command of matchedCommands) {
       if (
         command.name === lcSearch ||
-        (command.aliases && command.aliases().some(ali => ali === lcSearch))
+        (command.aliases && command.aliases.some((alias: string) => alias === lcSearch))
       ) {
         return [command];
       }

@@ -1,17 +1,33 @@
 import { Command } from './command';
+import { MessageEmbed, EmbedField } from 'discord.js';
+import { stripIndents } from 'common-tags';
+import { ArgumentDefinition } from './argument';
 
 export class CommandGroup {
-  constructor(private groupName: string, private entries: Command<any>[]) { }
+  constructor(public readonly name: string, public readonly commands: Command[]) { }
 
-  public get name(): string {
-    return this.groupName;
+  public addCommand(command: Command) {
+    this.commands.push(command);
   }
 
-  public get commands(): Command<any>[] {
-    return this.entries;
-  }
+  public createHelpEmbed(): MessageEmbed {
 
-  public addCommand(command: Command<any>) {
-    this.entries.push(command);
+    return new MessageEmbed({
+      title: stripIndents(`__**${this.name}**__`),
+      fields: this.commands.map<EmbedField>((cmd: Command) => {
+
+          const name = [
+              `${cmd.client.opts.prefix}${cmd.name}`,
+              ...cmd.aliases.map((alias: string) => `${cmd.client.opts.prefix}${alias}`)]
+              .join('/');
+          const args = cmd.signature.map((arg: ArgumentDefinition) => `<${arg.name}>`).join(' ');
+
+          return {
+              name: `**${name} ${args}**`,
+              value: cmd.description,
+              inline: false
+          };
+      })
+  })
   }
 }

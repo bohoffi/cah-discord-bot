@@ -7,21 +7,22 @@ import { CommanderClient } from '../commander.client';
 
 const log$ = log(true);
 
-export abstract class Command<TArgumentsType> {
-  constructor(private commandName: string, protected client: CommanderClient) {
-    log$('Created command: ', commandName);
-  }
-
-  public get name(): string {
-    return this.commandName;
+export abstract class Command<TArgumentsType = any> {
+  constructor(public readonly name: string, public readonly client: CommanderClient, public readonly description?: string) {
+    log$('Created command: ', name);
   }
 
   public createHelpEmbed(): MessageEmbed {
 
+    const name = [
+      `${this.client.opts.prefix}${this.name}`,
+      ...this.aliases.map((alias: string) => `${this.client.opts.prefix}${alias}`)]
+      .join('/');
+
     const helpEmbed = new MessageEmbed({
       color: 0x46BDC6,
-      title: stripIndents(`__${this.name}__ (${this.aliases().join(', ')})`),
-      description: 'Available arguments',
+      title: stripIndents(`__${name}__`),
+      description: this.description
     });
 
     if (this.signature.length) {
@@ -37,7 +38,7 @@ export abstract class Command<TArgumentsType> {
     return helpEmbed;
   }
 
-  public abstract aliases(): string[];
+  public abstract get aliases(): string[];
 
   public abstract get signature(): ArgumentDefinition[];
 
